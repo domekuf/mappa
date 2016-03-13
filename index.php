@@ -21,15 +21,22 @@
   });
   </script>
 </head>
-<body style="background: url('file.jpg') no-repeat center center fixed">
-<div class="container row">
+<body >
+<div style="background: url('file.png') no-repeat center center fixed;z-index:-10" class="container row">
 <div class="col-xs-12" style="margin:50px" id="pins">
 
-			<?php
-$myfile = fopen("list.html", "r+");
-echo fread($myfile,filesize("list.html"));
-fclose($myfile);
+
+<?php
+	$myfile = fopen("list.html", "r+");
+	echo fread($myfile,filesize("list.html"));
+	fclose($myfile);
 ?>
+<?php
+	$my2file = fopen("cont.html", "r+");
+	echo fread($my2file,filesize("cont.html"));
+	fclose($my2file);
+?>
+</div>
 </div>
 <div style="position:fixed;bottom:0px" class=" well col-xs-6">
 <div id="mostra" style="display:none" class="form-control btn btn-warning " onclick="show_form()"><i class="glyphicon glyphicon-plus "> </i> Mostra</div>
@@ -79,14 +86,43 @@ fclose($myfile);
     <span class="sr-only">0% Complete</span>
   </div>
 </div>
+<div style="display:none">
+<audio id="ok" controls>
+<source src="ok.mp3" type="audio/mpeg">
+</audio>
 
-
+<audio id="ko" controls>
+<source src="ko.mp3" type="audio/mpeg">
+</audio>
+</div>
 
 
 </body>
 
 <script>
+//$('#aux')[0].play();
+var usr_selected='';
+function usr_mousedown(user){	
+	usr_selected=user.attr('id');
+	$('#usr_selected').val(usr_selected);
+	//console.log(usr_selected);
+	//pi.requestQ('asd','asd');
+}
+function usr_mouseup(user){
+	//console.log(usr_selected);
+	$('#'+usr_selected).css('z-index',2);
+	usr_selected='';
+}
 
+function grp_mouseup(group){
+	console.log(group);
+	$('#'+usr_selected).css('z-index',4);
+	if(usr_selected==group){
+		$('#ok')[0].play();
+	}else{
+		$('#ko')[0].play();
+	}
+}
 var form = [];
 var fileSelect = [];
 var uploadButton = [];
@@ -158,7 +194,7 @@ var randomId = new Date().getTime();
         $('#progressbar').css('width','100%');
         $('#myModal').modal('hide');
 		uploadButton[0].val("Carica Sfondo");
-		$("body").css("background", "url(file.jpg" + "?random=" + randomId + ") no-repeat center center fixed");
+		$("body").css("background", "url(file.png" + "?random=" + randomId + ") no-repeat center center fixed");
 	} else {
 		alert("Errore!");
 	}
