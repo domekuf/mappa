@@ -21,24 +21,35 @@
   });
   </script>
 </head>
-<body >
-<div style="background: url('file.png') no-repeat center center fixed;z-index:-10" class="container row">
-<div class="col-xs-12" style="margin:50px" id="pins">
+<body>
+<div class="row">
 
 
-<?php
-	$myfile = fopen("list.html", "r+");
-	echo fread($myfile,filesize("list.html"));
-	fclose($myfile);
-?>
+<div class="col-xs-9" 
+style="
+background-image: url('file.png');
+background-repeat : no-repeat;
+background-size:contain;
+min-height:900px;"
+id="labels">
 <?php
 	$my2file = fopen("cont.html", "r+");
 	echo fread($my2file,filesize("cont.html"));
 	fclose($my2file);
 ?>
 </div>
+<div class="col-xs-3" style="background-color:white;height:600px;" id="pins">
+<?php
+	$myfile = fopen("list.html", "r+");
+	echo fread($myfile,filesize("list.html"));
+	fclose($myfile);
+?>
 </div>
-<div style="position:fixed;bottom:0px" class=" well col-xs-6">
+</div>
+<div style="position:fixed;bottom:0px;right:0;" class=" well col-xs-5">
+Stai spostando: <span id="info"></span>
+</div>
+<div style="position:fixed;bottom:0px;display:none" class=" well col-xs-6">
 <div id="mostra" style="display:none" class="form-control btn btn-warning " onclick="show_form()"><i class="glyphicon glyphicon-plus "> </i> Mostra</div>
  <form class="file-form form-group-sm" method="post" enctype="multipart/form-data">
  			 <div class="checkbox">
@@ -105,15 +116,23 @@ var usr_selected='';
 function usr_mousedown(user){	
 	usr_selected=user.attr('id');
 	$('#usr_selected').val(usr_selected);
+	$('#'+usr_selected).css('z-index',2);
+	$('#info').html(usr_selected);
 	//console.log(usr_selected);
 	//pi.requestQ('asd','asd');
 }
 function usr_mouseup(user){
 	//console.log(usr_selected);
-	$('#'+usr_selected).css('z-index',2);
+	//$('#'+usr_selected).css('z-index',2);
 	usr_selected='';
+	$('#info').html(usr_selected);
 }
-
+function usr_mouseclick(user){
+	//console.log(usr_selected);
+	//$(user).css('z-index',2);
+	
+	//usr_selected='';
+}
 function grp_mouseup(group){
 	console.log(group);
 	$('#'+usr_selected).css('z-index',4);
